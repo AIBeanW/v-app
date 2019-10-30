@@ -1,0 +1,14 @@
+# 忽略目录
+examples/
+node_modules/
+public/
+ 
+# 忽略指定文件
+.browserslistrc
+.eslintrc.js
+.gitignore
+babel.config.js
+package-lock.json
+postcss.config.js
+vue.config.js
+*.map

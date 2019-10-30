@@ -12,7 +12,7 @@ module.exports = {
         // @指向examples目录
         // ~指向packages目录
         config.resolve.alias
-            .set('@', path.resolve('examples'))
+            .set('examples', path.resolve('examples'))
             .set('~', path.resolve('packages'));
         // lib目录是组件库最终打包好存放的地方，不需要eslint检查
         config.module

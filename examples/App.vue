@@ -1,25 +1,53 @@
 <template>
-  <div id="app">
-    <v-test :title="'2222'"/>
-  </div>
+	<div id="app">
+		<ul class="components clearfix">
+			<li v-for="(component, index) in components" :key="index">
+				<router-link :to="component.path">{{component.name}}</router-link>
+			</li>
+		</ul>
+		<router-view></router-view>
+	</div>
 </template>
+
+<script>
+export default {
+	data() {
+		return {
+			components: [
+				{
+					name: "select",
+					path: "/select"
+				}
+			]
+		};
+	}
+};
+</script>
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+	padding: 20px;
+	.components {
+		margin-bottom: 50px;
+		padding: 0;
+		list-style: none;
+		li {
+			float: left;
+		}
+	}
 }
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+
+.clearfix {
+	zoom: 1;
+}
+
+.clearfix:after {
+	content: ".";
+	width: 0;
+	height: 0;
+	visibility: hidden;
+	display: block;
+	clear: both;
+	overflow: hidden;
 }
 </style>
