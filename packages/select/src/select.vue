@@ -1,13 +1,32 @@
 <template>
 	<div class="v-select">
-		<div class="v-select_input">
-			<div>
-				<span :class="value ? 'v-select_value' : 'v-select_placeholder'">{{value ? selected.currentLabel : placeholder}}</span>
+		<div @click="isShowOption = true" class="v-select_selection">
+			<input
+				class="v-input"
+				v-if="!multiple || multiple && selected.length<=0"
+				readonly
+				:placeholder="placeholder"
+				v-model="selected.currentLabel"
+				type="text"
+			/>
+			<div class="v-select_tag" v-else>
+				<span class="v-select_tag_checked" v-for="(option, index) in selected" :key="index">
+					<span class="v-select_tag_checked_text">{{option.currentLabel}}</span>
+					<i @click.stop="deleteOption(option)" class="v-select_tag_checked_delete">x</i>
+				</span>
 			</div>
 		</div>
-		<ul class="v-select_dropdown">
-			<slot></slot>
-		</ul>
+		<div @click="isShowOption = false" v-if="isShowOption" class="v-popup">
+			<ul @click.stop class="v-select_dropdown">
+				<li class="v-select_dropdown_title">
+					<h3 class="v-select_dropdown_title_text">{{placeholder}}</h3>
+					<i @click="isShowOption = false" class="v-select_dropdown_title_close">x</i>
+				</li>
+				<v-scroller class="v-select_dropdown_scroller" :loading="isMore" @next="remoteMethod">
+					<slot></slot>
+				</v-scroller>
+			</ul>
+		</div>
 	</div>
 </template>
 
@@ -16,6 +35,10 @@ export default {
 	name: "v-select",
 	data() {
 		return {
+			// 是否还有更多
+			isMore: false,
+			// 是否弹出选项列表
+			isShowOption: false,
 			// 当前选中
 			selected: this.multiple ? [] : {},
 			// 缓存的选项
@@ -42,6 +65,12 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: false
+		},
+		remoteMethod: Function
+	},
+	created() {
+		if (this.multiple && !Array.isArray(this.value)) {
+			this.$emit("input", []);
 		}
 	},
 	mounted() {
@@ -49,6 +78,15 @@ export default {
 		this.setSelected();
 	},
 	methods: {
+		deleteOption(option) {
+			let index = this.value.indexOf(option.value);
+			if (index > -1) {
+				let values = JSON.parse(JSON.stringify(this.value || []));
+				values.splice(index, 1);
+				this.$emit("input", values);
+				this.$emit("change", values);
+			}
+		},
 		getOption(value) {
 			let option = this.cachedOptions.find(e => e.value === value);
 			if (option) return option;
@@ -60,19 +98,33 @@ export default {
 		},
 		setSelected() {
 			if (this.multiple) {
+				let selected = [];
+				if (Array.isArray(this.value)) {
+					this.value.forEach(value => {
+						selected.push(this.getOption(value));
+					});
+				}
+				this.selected = selected;
 			} else {
 				this.selected = this.getOption(this.value);
 			}
 		},
 		handleOptionSelect(option) {
 			if (this.multiple) {
+				let values = JSON.parse(JSON.stringify(this.value || []));
+				let optionIndex = values.indexOf(option.value);
+				if (optionIndex > -1) {
+					values.splice(optionIndex, 1);
+				} else {
+					values.push(option.value);
+				}
+				this.$emit("input", values);
+				this.$emit("change", values);
 			} else {
 				this.$emit("input", option.value);
-				this.emitChange(option.value);
+				this.$emit("change", option.value);
+				this.isShowOption = false;
 			}
-		},
-		emitChange(val) {
-			this.$emit("change", val);
 		}
 	},
 	watch: {
@@ -82,43 +134,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.v-select {
-	display: inline-block;
-	width: 100%;
-	box-sizing: border-box;
-	color: #495060;
-	font-size: 14px;
-	.v-select_input {
-		display: block;
-		width: 100%;
-		height: 32px;
-		box-sizing: border-box;
-		border: 1px solid #dddeee;
-		border-radius: 4px;
-		.v-select_value,
-		.v-select_placeholder {
-			display: block;
-			height: 30px;
-			line-height: 30px;
-			box-sizing: border-box;
-			padding-left: 8px;
-			padding-right: 24px;
-			font-size: 12px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-		.v-select_value {
-		}
-		.v-select_placeholder {
-			color: #bbbec4;
-		}
-	}
-	.v-select_dropdown {
-		list-style: none;
-		padding: 0;
-	}
-}
-</style>

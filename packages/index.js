@@ -1,8 +1,9 @@
 import Test from './test';
 import Select from './select';
 import Option from './option';
+import Scroller from './scroller';
 
-const components = [Test, Select, Option];
+const components = [Test, Scroller, Select, Option];
 
 const install = function (Vue) {
     if (install.installed) return;
@@ -19,5 +20,6 @@ export default {
     install,
     Test,
     Select,
-    Option
+    Option,
+    Scroller
 };

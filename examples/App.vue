@@ -25,6 +25,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/styles/index.scss";
 #app {
 	padding: 20px;
 	.components {

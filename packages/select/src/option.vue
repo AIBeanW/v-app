@@ -42,7 +42,7 @@ export default {
 	computed: {
 		isSelected() {
 			if (this.select.multiple) {
-				return this.select.value.indexOf(this.value);
+				return this.select.value.includes(this.value);
 			} else {
 				return this.value === this.select.value;
 			}
@@ -62,14 +62,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.v-select_list_item {
-	&.selected {
-		color: #57a3f3;
-	}
-	&.hover {
-		background-color: #f5f7fa;
-	}
-}
-</style>
