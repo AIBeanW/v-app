@@ -22,7 +22,7 @@
 					<h3 class="v-select_dropdown_title_text">{{placeholder}}</h3>
 					<i @click="isShowOption = false" class="v-select_dropdown_title_close">x</i>
 				</li>
-				<v-scroller class="v-select_dropdown_scroller" :loading="isMore" @next="remoteMethod">
+				<v-scroller class="v-select_dropdown_scroller" :loading="more" @next="handleNext">
 					<slot></slot>
 				</v-scroller>
 			</ul>
@@ -36,7 +36,7 @@ export default {
 	data() {
 		return {
 			// 是否还有更多
-			isMore: false,
+			more: this.remoteMethod ? true : false,
 			// 是否弹出选项列表
 			isShowOption: false,
 			// 当前选中
@@ -68,16 +68,14 @@ export default {
 		},
 		remoteMethod: Function
 	},
-	created() {
-		if (this.multiple && !Array.isArray(this.value)) {
-			this.$emit("input", []);
-		}
-	},
-	mounted() {
-		this.$on("handleOptionSelect", this.handleOptionSelect);
-		this.setSelected();
-	},
 	methods: {
+		handleNext() {
+			if (this.remoteMethod && this.more) {
+				this.remoteMethod((more)=>{
+					this.more = more;
+				});
+			}
+		},
 		deleteOption(option) {
 			let index = this.value.indexOf(option.value);
 			if (index > -1) {
@@ -126,6 +124,15 @@ export default {
 				this.isShowOption = false;
 			}
 		}
+	},
+	created() {
+		if (this.multiple && !Array.isArray(this.value)) {
+			this.$emit("input", []);
+		}
+	},
+	mounted() {
+		this.$on("handleOptionSelect", this.handleOptionSelect);
+		this.setSelected();
 	},
 	watch: {
 		value() {
