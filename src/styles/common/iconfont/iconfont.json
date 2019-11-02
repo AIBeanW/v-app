@@ -1,0 +1,23 @@
+{
+  "id": "1487483",
+  "name": "v-app",
+  "font_family": "vIcon",
+  "css_prefix_text": "v-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5392459",
+      "name": "选中",
+      "font_class": "xuanzhong",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "6970021",
+      "name": "删除",
+      "font_class": "shanchu",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    }
+  ]
+}
