@@ -1,4 +1,5 @@
 const path = require('path');
+console.log(3333)
 module.exports = {
     // 修改默认的入口
     pages: {
