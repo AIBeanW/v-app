@@ -9,6 +9,10 @@ export default new Router({
 		{
 			path: '/select',
 			component: resolve => require(['./views/select/index.vue'], resolve)
+		},
+		{
+			path: '/popup',
+			component: resolve => require(['./views/popup/index.vue'], resolve)
 		}
 	]
 })

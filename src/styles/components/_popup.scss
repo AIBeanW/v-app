@@ -1,0 +1,51 @@
+.v-popup {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+    background: rgba($color: #000, $alpha: 0.5);
+    z-index: $v-index-top;
+	&.v-popup_show {
+		.v-popup_container {
+			&.v-popup_bottom {
+				transform: translate(-50%, 0);
+			}
+			&.v-popup_top {
+				transform: translate(-50%, 0);
+			}
+			&.v-popup_left {
+				transform: translate(0, -50%);
+			}
+			&.v-popup_right {
+				transform: translate(0, -50%);
+			}
+		}
+	}
+
+	.v-popup_container {
+		position: fixed;
+		transition: 0.2s ease-out;
+		background-color: #fff;
+		&.v-popup_bottom {
+			left: 50%;
+			bottom: 0;
+			transform: translate(-50%, 100%);
+		}
+		&.v-popup_top {
+			left: 50%;
+			top: 0;
+			transform: translate(-50%, -100%);
+		}
+		&.v-popup_left {
+			left: 0;
+			top: 50%;
+			transform: translate(-100%, -50%);
+		}
+		&.v-popup_right {
+			right: 0;
+			top: 50%;
+			transform: translate(100%, -50%);
+		}
+	}
+}

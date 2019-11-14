@@ -1,5 +1,6 @@
 const path = require('path');
-console.log(3333)
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
     // 修改默认的入口
     pages: {
@@ -8,6 +9,13 @@ module.exports = {
             template: 'public/index.html',
             filename: 'index.html'
         }
+    },
+    configureWebpack: {
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: `v-app.css`
+            })
+        ]
     },
     chainWebpack: config => {
         // @指向examples目录

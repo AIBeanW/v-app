@@ -17,6 +17,10 @@ export default {
 				{
 					name: "select",
 					path: "/select"
+				},
+				{
+					name: "popup",
+					path: "/popup"
 				}
 			]
 		};
@@ -34,6 +38,7 @@ export default {
 		list-style: none;
 		li {
 			float: left;
+			margin-right: 15px;
 		}
 	}
 }
