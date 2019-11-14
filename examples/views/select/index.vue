@@ -1,11 +1,26 @@
 <template>
 	<div>
-		<p>multiple : 多选</p>
-		<p>remoteMethod 是否加载更多（适用于分页功能） 参数 callback(Boolean) true 代表还有数据 false代表加载完毕</p>
-
-		<v-select multiple :remoteMethod="remoteMethod" v-model="value">
-			<v-option v-for="(item,index) in values" :value="item" :label="item+index" :key="index"></v-option>
-		</v-select>
+		<ol>
+			<li>
+				<p>标准的</p>
+				<v-select v-model="value">
+					<v-option v-for="(item,index) in values" :value="item" :label="item+index" :key="index"></v-option>
+				</v-select>
+			</li>
+			<li>
+				<p>多选的</p>
+				<v-select multiple v-model="multipleValue">
+					<v-option v-for="(item,index) in values" :value="item" :label="item+index" :key="index"></v-option>
+				</v-select>
+			</li>
+			<li>
+				<p>远程加载的</p>
+				<p>remoteMethod 是否加载更多（适用于分页功能） 参数 callback(Boolean) true 代表还有数据 false代表加载完毕</p>
+				<v-select :remoteMethod="remoteMethod" v-model="value">
+					<v-option v-for="(item,index) in values" :value="item" :label="item+index" :key="index"></v-option>
+				</v-select>
+			</li>
+		</ol>
 	</div>
 </template>
 
@@ -14,6 +29,7 @@ export default {
 	data() {
 		return {
 			value: "beijing",
+			multipleValue: [],
 			values: [
 				"北京",
 				"天津",

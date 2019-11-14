@@ -1,5 +1,10 @@
 <template>
 	<div id="app">
+		github地址:<a href="https://github.com/AIBeanW/v-app">https://github.com/AIBeanW/v-app</a>
+		<h3>
+			请使用手机模式进行预览
+		</h3>
+		<br>
 		<ul class="components clearfix">
 			<li v-for="(component, index) in components" :key="index">
 				<router-link :to="component.path">{{component.name}}</router-link>
