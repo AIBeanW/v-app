@@ -38,7 +38,6 @@ export default {
 			this.dispatch("v-select", "handleOptionSelect", this);
 		}
 	},
-	mounted() {},
 	computed: {
 		isSelected() {
 			if (this.select.multiple) {

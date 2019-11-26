@@ -16,7 +16,7 @@
 				</span>
 			</div>
 		</div>
-		<div @click="isShowOption = false" v-if="isShowOption" class="v-popup">
+		<popup :bodyNode="true" v-model="isShowOption">
 			<ul @click.stop class="v-select_dropdown">
 				<li class="v-select_dropdown_title">
 					<h3 class="v-select_dropdown_title_text">{{placeholder}}</h3>
@@ -26,11 +26,12 @@
 					<slot></slot>
 				</v-scroller>
 			</ul>
-		</div>
+		</popup>
 	</div>
 </template>
 
 <script>
+import popup from "~/popup/index";
 export default {
 	name: "v-select",
 	data() {
@@ -71,7 +72,7 @@ export default {
 	methods: {
 		handleNext() {
 			if (this.remoteMethod && this.more) {
-				this.remoteMethod((more)=>{
+				this.remoteMethod(more => {
 					this.more = more;
 				});
 			}
@@ -137,7 +138,13 @@ export default {
 	watch: {
 		value() {
 			this.setSelected();
+		},
+		cachedOptions() {
+			this.setSelected();
 		}
+	},
+	components: {
+		popup
 	}
 };
 </script>

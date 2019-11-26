@@ -2,6 +2,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+    devServer: {
+        open: true
+    },
     // 修改默认的入口
     pages: {
         index: {

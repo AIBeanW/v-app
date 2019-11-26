@@ -1,5 +1,5 @@
 <template>
-	<div v-if="showOverlay" @click="close" class="v-popup" :class="{'v-popup_show': showPopup}">
+	<div @click="destroyPopper" class="v-popup" :class="{'v-popup_show': showPopup}">
 		<div :class="`v-popup_${position}`" @click.stop class="v-popup_container">
 			<slot />
 		</div>
@@ -7,12 +7,13 @@
 </template>
 
 <script>
+import { getScrollEventTarget } from "@/utils/util.js";
 export default {
 	name: "v-popup",
 	data() {
 		return {
-			showOverlay: false,
-			showPopup: false
+			showPopup: false,
+			bottomScroll: []
 		};
 	},
 	props: {
@@ -24,29 +25,63 @@ export default {
 			type: String,
 			default: "bottom",
 			validator: function(value) {
-				return ["bottom", "top", "left", "right"].indexOf(value) !== -1;
+				return (
+					["bottom", "top", "left", "right", "middle"].indexOf(
+						value
+					) !== -1
+				);
 			}
+		},
+		bodyNode: {
+			type: Boolean,
+			default: false
 		}
 	},
 	methods: {
-		close() {
-			this.$emit("input", false);
+		destroyPopper() {
+			if (this.showPopup) {
+				this.showPopup = false;
+				setTimeout(() => {
+					if (this.bodyNode) {
+						this.$el.remove();
+					} else {
+						this.$el.style.display = "none";
+					}
+					this.handlerBottomRoll("auto");
+					this.$emit("input", false);
+				}, 200);
+			}
+		},
+		handlerBottomRoll(type) {
+			if (type == "hidden") {
+				let scrollEventTarget = getScrollEventTarget(this.$el);
+				scrollEventTarget.style.overflowY = type;
+				this.bottomScroll.push(scrollEventTarget);
+			} else {
+				this.bottomScroll.forEach(e => {
+					e.style.overflowY = type;
+				});
+				this.bottomScroll = [];
+			}
+		},
+		createPopper() {
+			if (this.bodyNode) {
+				document.body.appendChild(this.$el);
+			}
+			this.$el.style.display = "block";
+			this.handlerBottomRoll("hidden");
+			this.showPopup = true;
 		}
+	},
+	destroyed() {
+		this.destroyPopper();
 	},
 	watch: {
 		value: {
 			handler(val) {
-				if (val) {
-					this.showOverlay = val;
-					setTimeout(() => {
-						this.showPopup = val;
-					}, 1);
-				} else {
-					this.showPopup = val;
-					setTimeout(() => {
-						this.showOverlay = val;
-					}, 200);
-				}
+				this.$nextTick(() => {
+					val ? this.createPopper() : this.destroyPopper();
+				});
 			},
 			immediate: true
 		}

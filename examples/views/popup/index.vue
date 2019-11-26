@@ -1,12 +1,18 @@
 <template>
 	<div>
-		<button @click="value = true">弹出 {{value}}</button>
-		<v-popup v-model="value" position="right">
-			<ul>
-                <li v-for="el in 20" :key="el">
-                    {{el}}
-                </li>
-            </ul>
+		<button
+			class="btn"
+			v-for="(el,index) in positions"
+			:key="index"
+			@click="showPopUp(el)"
+		>{{el.name}}</button>
+		<ul class="test">
+			<li v-for="el in 50" :key="el">{{el}}</li>
+		</ul>
+		<v-popup v-model="value" :position="currerntPosition">
+			<ul class="popup">
+				<li v-for="el in 20" :key="el">{{el}}</li>
+			</ul>
 		</v-popup>
 	</div>
 </template>
@@ -15,14 +21,50 @@
 export default {
 	data() {
 		return {
-			value: true
+			value: false,
+			currerntPosition: "bottom",
+			positions: [
+				{
+					name: "顶部",
+					tag: "top"
+				},
+				{
+					name: "右侧",
+					tag: "right"
+				},
+				{
+					name: "底部",
+					tag: "bottom"
+				},
+				{
+					name: "左侧",
+					tag: "left"
+				},
+				{
+					name: "中间",
+					tag: "middle"
+				}
+			]
 		};
+	},
+	methods: {
+		showPopUp(el) {
+			this.currerntPosition = el.tag;
+			this.value = true;
+		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-    ul{
-        width: 50vw;
-    }
+.btn {
+	display: block;
+	margin-bottom: 15px;
+	padding: 6px;
+}
+.popup {
+	width: 50vw;
+	height: 200px;
+	overflow: auto;
+}
 </style>
