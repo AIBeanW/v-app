@@ -15,7 +15,7 @@
 			</li>
 			<li>
 				<p>远程加载的</p>
-				<p>remoteMethod 是否加载更多（适用于分页功能） 参数 callback(Boolean) true 代表还有数据 false代表加载完毕</p>
+				<p>remoteMethod 是否加载更多（适用于分页功能） 参数loading 是否正在加载</p>
 				<v-select :remoteMethod="remoteMethod" multiple v-model="value">
 					<v-option v-for="(item,index) in values" :value="item.value" :label="item.label" :key="index"></v-option>
 				</v-select>
@@ -50,7 +50,7 @@ export default {
 		};
 	},
 	methods: {
-		remoteMethod(callback) {
+		remoteMethod() {
 			this.values.push(
 				...[
 					{
@@ -104,11 +104,6 @@ export default {
 				]
 			);
 			this.index++;
-			if (this.index > 3) {
-				callback(false);
-				return;
-			}
-			callback(true);
 		}
 	}
 };
