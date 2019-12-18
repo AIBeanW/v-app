@@ -16,8 +16,9 @@
 			<li>
 				<p>远程加载的</p>
 				<p>remoteMethod 是否加载更多（适用于分页功能） 参数loading 是否正在加载</p>
-				<v-select :remoteMethod="remoteMethod" multiple v-model="value">
-					<v-option v-for="(item,index) in values" :value="item.value" :label="item.label" :key="index"></v-option>
+				{{value2}}
+				<v-select :remoteMethod="remoteMethod" v-model="value2">
+					<v-option  value="2" label="选项2"></v-option>
 				</v-select>
 			</li>
 		</ol>
@@ -28,82 +29,45 @@
 export default {
 	data() {
 		return {
-			value2: "beijing",
+			value2: "2",
 			multipleValue: [],
 			value: ["beijing2", "十3"],
 			values: [],
 			values2: [
 				{
-					value: "beijing",
-					label: "北京"
+					value: "2",
+					label: "二"
 				},
 				{
-					value: "shanghai",
-					label: "上海"
+					value: "3",
+					label: "3"
 				},
 				{
-					value: "chongqing",
-					label: "重庆"
+					value: "4",
+					label: "4"
 				}
 			],
 			index: 0
 		};
 	},
 	methods: {
-		remoteMethod() {
-			this.values.push(
-				...[
-					{
-						value: "beijing" + this.index,
-						label: "北京" + this.index
-					},
-					{
-						value: "shanghai" + this.index,
-						label: "上海" + this.index
-					},
-					{
-						value: "一" + this.index,
-						label: "一一" + this.index
-					},
-					{
-						value: "二" + this.index,
-						label: "二" + this.index
-					},
-					{
-						value: "三" + this.index,
-						label: "三三" + this.index
-					},
-					{
-						value: "四" + this.index,
-						label: "四四" + this.index
-					},
-					{
-						value: "五" + this.index,
-						label: "五五" + this.index
-					},
-					{
-						value: "六" + this.index,
-						label: "六六" + this.index
-					},
-					{
-						value: "七" + this.index,
-						label: "七" + this.index
-					},
-					{
-						value: "八" + this.index,
-						label: "八八" + this.index
-					},
-					{
-						value: "九" + this.index,
-						label: "九九" + this.index
-					},
-					{
-						value: "十" + this.index,
-						label: "十十" + this.index
+		async remoteMethod({ page } = {}) {
+			return new Promise(res => {
+				setTimeout(() => {
+					console.log(3333)
+					let arr = [];
+					for (var i = 0; i < 10; i++) {
+						arr.push({
+							value: "" + (page * 10 + i),
+							label: "选项" + (page * 10 + i)
+						});
 					}
-				]
-			);
-			this.index++;
+					res({
+						options: arr,
+						more: page < 4
+					});
+				}, 1000);
+			});
 		}
 	}
 };

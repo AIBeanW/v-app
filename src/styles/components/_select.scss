@@ -81,15 +81,15 @@
 	.v-select_dropdown_scroller{
 		max-height: 40vh;
 		overflow-y: auto;
-		.v-select_list_item{
-			text-align: center;
-			height: 34px;
-			line-height: 34px;
-			padding: 0 10px;
-			&.selected {
-				color: $v-theme-color;
-			}
-		}
-
 	}
+	.v-select_list_item{
+		text-align: center;
+		height: 34px;
+		line-height: 34px;
+		padding: 0 10px;
+		&.selected {
+			color: $v-theme-color;
+		}
+	}
+
 }

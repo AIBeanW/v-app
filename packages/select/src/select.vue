@@ -22,9 +22,26 @@
 					<h3 class="v-select_dropdown_title_text">{{placeholder}}</h3>
 					<i @click="isShowOption = false" class="v-select_dropdown_title_close">x</i>
 				</li>
-				<v-scroller class="v-select_dropdown_scroller" :loading="loading" @next="handleNext">
-					<slot></slot>
-				</v-scroller>
+				<!-- 非远程加载的 -->
+				<slot v-if="!remoteMethod"></slot>
+				<div class="v-select_dropdown">
+					<div v-show="!remoteMethod" class="v-select_dropdown_selected">
+						<slot></slot>
+					</div>
+					<v-scroller
+						v-if="remoteMethod && this.isShowOption"
+						class="v-select_dropdown_scroller"
+						:loading="loading"
+						@next="loadingOptions"
+					>
+						<v-option
+							v-for="(el,index) in remoteResults.options"
+							:key="index"
+							:value="el.value"
+							:label="el.label"
+						></v-option>
+					</v-scroller>
+				</div>
 			</ul>
 		</popup>
 	</div>
@@ -32,6 +49,7 @@
 
 <script>
 import popup from "~/popup/index";
+import vOption from "./option";
 export default {
 	name: "v-select",
 	data() {
@@ -41,7 +59,14 @@ export default {
 			// 当前选中
 			selected: this.multiple ? [] : {},
 			// 缓存的选项
-			cachedOptions: []
+			cachedOptions: [],
+			// 远程加载的页码
+			remoteResults: {
+				options: [],
+				more: true,
+				page: 0
+			},
+			loading: false
 		};
 	},
 	provide() {
@@ -65,15 +90,31 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		remoteMethod: Function,
-		loading: Boolean
+		remoteMethod: Function
 	},
 	methods: {
-		handleNext() {
-			if (this.remoteMethod && !this.loading) {
-				this.remoteMethod();
+		// 远程加载
+		async loadingOptions() {
+			if (
+				this.remoteMethod && // 是远程加载
+				this.isShowOption && // 弹出框已经打开
+				!this.loading && // 不在加载中
+				this.remoteResults.more // 还有更多数据
+			) {
+				this.loading = true;
+				let remoteResults = await this.remoteMethod({
+					page: this.remoteResults.page
+				});
+				this.remoteResults.page++;
+				this.remoteResults.options = [
+					...this.remoteResults.options,
+					...remoteResults.options
+				];
+				this.remoteResults.more = remoteResults.more;
+				this.loading = false;
 			}
 		},
+		// 删除 多选选项
 		deleteOption(option) {
 			let index = this.value.indexOf(option.value);
 			if (index > -1) {
@@ -138,10 +179,19 @@ export default {
 		},
 		cachedOptions() {
 			this.setSelected();
+		},
+		isShowOption() {
+			// 是远程加载
+			if (this.remoteMethod) {
+				this.remoteResults.page = 0;
+				this.remoteResults.options = [];
+				this.remoteResults.more = true;
+			}
 		}
 	},
 	components: {
-		popup
+		popup,
+		vOption
 	}
 };
 </script>
