@@ -156,10 +156,22 @@ export default {
 					values.push(option.value);
 				}
 				this.$emit("input", values);
-				this.$emit("change", values);
+				this.$emit(
+					"change",
+					values,
+					values.map(value => {
+						return {
+							value: value,
+							label: this.getOption(value).currentLabel
+						};
+					})
+				);
 			} else {
 				this.$emit("input", option.value);
-				this.$emit("change", option.value);
+				this.$emit("change", option.value, {
+					value: option.value,
+					label: option.currentLabel
+				});
 				this.isShowOption = false;
 			}
 		}
