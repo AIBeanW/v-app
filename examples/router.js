@@ -13,6 +13,10 @@ export default new Router({
 		{
 			path: '/popup',
 			component: resolve => require(['./views/popup/index.vue'], resolve)
+		},
+		{
+			path: '/inputNumber',
+			component: resolve => require(['./views/inputNumber/index.vue'], resolve)
 		}
 	]
 })

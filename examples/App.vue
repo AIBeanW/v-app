@@ -26,6 +26,10 @@ export default {
 				{
 					name: "popup",
 					path: "/popup"
+				},
+				{
+					name: "inputNumber",
+					path: "/inputNumber"
 				}
 			]
 		};

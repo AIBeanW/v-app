@@ -15,8 +15,7 @@
 			</li>
 			<li>
 				<p>远程加载的</p>
-				<p>remoteMethod 是否加载更多（适用于分页功能） 参数loading 是否正在加载</p>
-				{{value2}}
+				<p>remoteMethod 加载更多（适用于分页功能） 参数page 当前页码</p>
 				<v-select :remoteMethod="remoteMethod" v-model="value2">
 					<v-option  value="2" label="选项2"></v-option>
 				</v-select>
@@ -54,7 +53,6 @@ export default {
 		async remoteMethod({ page } = {}) {
 			return new Promise(res => {
 				setTimeout(() => {
-					console.log(3333)
 					let arr = [];
 					for (var i = 0; i < 10; i++) {
 						arr.push({

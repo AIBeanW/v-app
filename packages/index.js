@@ -5,13 +5,15 @@ import Select from './select';
 import Option from './option';
 import Scroller from './scroller';
 import Popup from './popup';
+import InputNumber from './input-number';
 
 
 const components = [
     Scroller,
     Select,
     Option,
-    Popup
+    Popup,
+    InputNumber
 ];
 
 const install = function (Vue) {
