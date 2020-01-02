@@ -1,8 +1,21 @@
 <template>
 	<div class="v-input-number">
-		<button @click="decrease" class="v-button v-input-number_decrease">-</button>
-		<button @click="increase" class="v-button v-input-number_increase">+</button>
-		<input v-model="currentValue" class="v-input v-input-number_input" type="number" />
+		<button
+			:class="{'is-disabled': minDisabled}"
+			@click="decrease"
+			class="v-button v-input-number_decrease"
+		>-</button>
+		<button
+			:class="{'is-disabled': maxDisabled}"
+			@click="increase"
+			class="v-button v-input-number_increase"
+		>+</button>
+		<input
+			:disabled="disabled"
+			v-model="currentValue"
+			class="v-input v-input-number_input"
+			type="number"
+		/>
 	</div>
 </template>
 
@@ -29,16 +42,34 @@ export default {
 		min: {
 			type: Number,
 			default: -Infinity
-		}
+		},
+		disabled: Boolean
 	},
 	methods: {
 		decrease() {
+			if (this.minDisabled) return;
 			let changeValue = this.currentValue - this.step;
-			if (this.max) {
-			}
+			this.setValue(changeValue);
 		},
-		increase() {},
-		setValue() {}
+		increase() {
+			if (this.maxDisabled) return;
+			let changeValue = this.currentValue + this.step;
+			this.setValue(changeValue);
+		},
+		setValue(newVal) {
+			newVal = Number(newVal);
+			const oldVal = this.currentValue;
+			if (newVal >= this.max) newVal = this.max;
+			if (newVal <= this.min) newVal = this.min;
+			if (oldVal === newVal) return;
+			this.userInput = null;
+			this.currentValue = newVal;
+			this.$emit("input", newVal);
+			this.$emit("change", newVal, oldVal);
+		}
+	},
+	created() {
+		this.setValue(this.currentValue);
 	},
 	watch: {
 		value: {
@@ -48,42 +79,18 @@ export default {
 				}
 			},
 			immediate: true
+		},
+		currentValue(val) {
+			this.setValue(val);
+		}
+	},
+	computed: {
+		minDisabled() {
+			return this.currentValue - this.step < this.min || this.disabled;
+		},
+		maxDisabled() {
+			return this.currentValue + this.step > this.max || this.disabled;
 		}
 	}
 };
 </script>
-<style lang="scss" scoped>
-.v-input-number {
-	display: inline-block;
-	position: relative;
-	height: 30px;
-	.v-input-number_input {
-		width: 100px;
-		text-align: center;
-		border: 0.5px solid #bbb;
-		border-radius: 4px;
-		line-height: 29px;
-	}
-	.v-input-number_decrease,
-	.v-input-number_increase {
-		position: absolute;
-		z-index: var(v-index-normal);
-		top: 0.6px;
-		width: 30px;
-		height: 29px;
-		text-align: center;
-		background: #f5f7fa;
-		color: #606266;
-		cursor: pointer;
-		font-size: 13px;
-	}
-	.v-input-number_decrease {
-		left: 0.6px;
-		border-radius: 3px 0 0 3px;
-	}
-	.v-input-number_increase {
-		right: 0.6px;
-		border-radius: 0 3px 3px 0;
-	}
-}
-</style>
