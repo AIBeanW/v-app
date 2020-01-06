@@ -16,15 +16,14 @@
 				</span>
 			</div>
 		</div>
-		<popup :bodyNode="true" v-model="isShowOption">
+		<popup :bodyNode="bodyNode" v-model="isShowOption">
 			<ul @click.stop class="v-select_dropdown">
 				<li class="v-select_dropdown_title">
 					<h3 class="v-select_dropdown_title_text">{{placeholder}}</h3>
 					<i @click="isShowOption = false" class="v-select_dropdown_title_close">x</i>
 				</li>
-				<!-- 非远程加载的 -->
-				<slot v-if="!remoteMethod"></slot>
 				<div class="v-select_dropdown">
+					<!-- 非远程加载的 -->
 					<div v-show="!remoteMethod" class="v-select_dropdown_selected">
 						<slot></slot>
 					</div>
@@ -90,7 +89,11 @@ export default {
 			type: Boolean,
 			default: false
 		},
-		remoteMethod: Function
+		remoteMethod: Function,
+		bodyNode: {
+			type: Boolean,
+			default: true
+		}
 	},
 	methods: {
 		// 远程加载
