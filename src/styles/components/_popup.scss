@@ -31,6 +31,7 @@
 		position: fixed;
 		transition: 0.2s ease-out;
 		background-color: #fff;
+		border-radius: 6px 6px 0 0;
 		&.v-popup_bottom {
 			left: 50%;
 			bottom: 0;

@@ -9,7 +9,7 @@
 			</li>
 			<li>
 				<p>多选的</p>
-				<v-select multiple v-model="multipleValue">
+				<v-select :search="true" multiple v-model="multipleValue">
 					<v-option v-for="(item,index) in values2" :value="item.value" :label="item.label" :key="index"></v-option>
 				</v-select>
 			</li>
@@ -50,14 +50,15 @@ export default {
 		};
 	},
 	methods: {
-		async remoteMethod({ page } = {}) {
+		async remoteMethod({ page, query } = {}) {
 			return new Promise(res => {
+				console.log(query)
 				setTimeout(() => {
 					let arr = [];
-					for (var i = 0; i < 10; i++) {
+					for (var i = 0; i < 20; i++) {
 						arr.push({
-							value: "" + (page * 10 + i),
-							label: "选项" + (page * 10 + i)
+							value: "" + (page * 20 + i),
+							label: "选项" + (page * 20 + i)
 						});
 					}
 					res({

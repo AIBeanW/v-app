@@ -1,5 +1,6 @@
 // TODO: 引入不好  晚点单独打包文件
 import '@/styles/index.scss';
+import "@/styles/common/iconfont/iconfont.css";
 
 import Select from './select';
 import Option from './option';
