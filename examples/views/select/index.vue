@@ -16,7 +16,7 @@
 			<li>
 				<p>远程加载的</p>
 				<p>remoteMethod 加载更多（适用于分页功能） 参数page 当前页码</p>
-				<v-select :remoteMethod="remoteMethod" v-model="value2">
+				<v-select :search="true" :remoteMethod="remoteMethod" v-model="value2">
 					<v-option  value="2" label="选项2"></v-option>
 				</v-select>
 			</li>

@@ -122,7 +122,9 @@ export default {
     },
     methods: {
         handleSearchInput() {
-            this.query = this.remoteResults.query;
+            if (!this.remoteMethod) {
+                this.query = this.remoteResults.query;
+            }
         },
         // 点击搜索
         handleSearch() {

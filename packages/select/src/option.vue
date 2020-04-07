@@ -5,7 +5,7 @@
         :class="{
 			'selected': isSelected
 		}"
-        v-if="select.query === '' || currentLabel.indexOf(select.query) !== -1 "
+        v-if="select.query === '' || this.select.remoteMethod || currentLabel.indexOf(select.query) !== -1 "
     >
         <slot>{{ currentLabel }}</slot>
     </li>
