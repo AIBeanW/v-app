@@ -6,9 +6,6 @@ import store from './store'
 import test from '~/index.js';
 Vue.use(test)
 
-Vue.use(test)
-
-
 Vue.config.productionTip = false
 
 new Vue({
