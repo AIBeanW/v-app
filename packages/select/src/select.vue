@@ -1,6 +1,6 @@
 <template>
     <div class="v-select">
-        <div @click="isShowOption = true" class="v-select_selection">
+        <div @click="showOption" class="v-select_selection">
             <input
                 class="v-input"
                 v-if="!multiple || multiple && selected.length<=0"
@@ -121,6 +121,11 @@ export default {
         }
     },
     methods: {
+        showOption() {
+            if (!this.disabled) {
+                this.isShowOption = true;
+            }
+        },
         handleSearchInput() {
             if (!this.remoteMethod) {
                 this.query = this.remoteResults.query;
@@ -189,7 +194,10 @@ export default {
                 }
                 this.selected = selected;
             } else {
-                this.selected = this.getOption(this.value);
+                // 在这里加nextTick是因为 vue在unshift的时候 组件的uid会变化
+                this.$nextTick(()=>{
+                    this.selected = this.getOption(this.value)
+                });
             }
         },
         handleOptionSelect(option) {
@@ -233,7 +241,7 @@ export default {
     },
     watch: {
         value() {
-            this.setSelected();
+            this.setSelected()
         },
         cachedOptions() {
             this.setSelected();

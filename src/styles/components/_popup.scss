@@ -31,32 +31,36 @@
 		position: fixed;
 		transition: 0.2s ease-out;
 		background-color: #fff;
-		border-radius: 6px 6px 0 0;
 		&.v-popup_bottom {
 			left: 50%;
 			bottom: 0;
 			transform: translate(-50%, 100%);
+			border-radius: 6px 6px 0 0;
 		}
 		&.v-popup_top {
 			left: 50%;
 			top: 0;
 			transform: translate(-50%, -100%);
+			border-radius: 0 0 6px 6px;
 		}
 		&.v-popup_left {
 			left: 0;
 			top: 50%;
 			transform: translate(-100%, -50%);
+			border-radius: 0 6px 6px 0;
 		}
 		&.v-popup_right {
 			right: 0;
 			top: 50%;
 			transform: translate(100%, -50%);
+			border-radius: 6px 0 0 6px;
 		}
 		&.v-popup_middle{
 			left: 50%;
 			top: 50%;
 			transform: translate(-50%, -50%);
 			opacity: 0;
+			border-radius: 6px;
 		}
 	}
 }
