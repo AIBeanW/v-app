@@ -30,6 +30,10 @@ export default {
 				{
 					name: "inputNumber",
 					path: "/inputNumber"
+				},
+				{
+					name: "upload",
+					path: "/upload"
 				}
 			]
 		};

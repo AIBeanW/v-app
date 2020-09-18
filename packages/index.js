@@ -7,6 +7,7 @@ import Option from './option';
 import Scroller from './scroller';
 import Popup from './popup';
 import InputNumber from './input-number';
+import Upload from './upload';
 
 
 const components = [
@@ -14,7 +15,8 @@ const components = [
     Select,
     Option,
     Popup,
-    InputNumber
+    InputNumber,
+    Upload
 ];
 
 const install = function (Vue) {
@@ -32,5 +34,6 @@ export default {
     install,
     Select,
     Option,
-    Scroller
+    Scroller,
+    Upload
 };

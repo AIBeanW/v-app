@@ -17,6 +17,10 @@ export default new Router({
 		{
 			path: '/inputNumber',
 			component: resolve => require(['./views/inputNumber/index.vue'], resolve)
+		},
+		{
+			path: '/upload',
+			component: resolve => require(['./views/upload/index.vue'], resolve)
 		}
 	]
 })

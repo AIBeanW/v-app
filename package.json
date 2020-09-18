@@ -11,6 +11,7 @@
     "lib": "vue-cli-service build --target lib --name v-app --dest lib packages/index.js"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
