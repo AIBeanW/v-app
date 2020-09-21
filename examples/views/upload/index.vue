@@ -1,8 +1,10 @@
 <template>
     <div>
         <v-upload
+            :url="`http://localhost:8888/api/upload`"
             :success="uploadSuccess"
             :error="error"
+            :beforeUpload="beforeUpload"
         >
         
             <span>
@@ -18,11 +20,21 @@ export default {
         return {};
     },
     methods:{
+        test(){
+            return new Promise(res=>{
+              setTimeout(() => {
+                  res()
+              }, 3000);  
+            })
+        },
+        beforeUpload(file){
+            return false
+        },
         uploadSuccess(){
 
         },
-        error(error){
-
+        error(error, file){
+            console.log(error)
         },
 
     }
