@@ -34,7 +34,7 @@ export default {
         {
           name: "upload",
           path: "/upload",
-        },
+        }
       ],
     };
   },

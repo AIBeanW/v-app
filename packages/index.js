@@ -8,6 +8,7 @@ import Scroller from './scroller';
 import Popup from './popup';
 import InputNumber from './input-number';
 import Upload from './upload';
+import ImageCrop from './image-crop';
 
 
 const components = [
@@ -16,7 +17,8 @@ const components = [
     Option,
     Popup,
     InputNumber,
-    Upload
+    Upload,
+    ImageCrop
 ];
 
 const install = function (Vue) {
@@ -35,5 +37,6 @@ export default {
     Select,
     Option,
     Scroller,
-    Upload
+    Upload,
+    ImageCrop
 };
