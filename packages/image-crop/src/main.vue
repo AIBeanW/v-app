@@ -58,12 +58,28 @@ export default {
       }
     },
     listenerTouch() {
+      let position = {
+        X: 0,
+        Y: 0,
+      };
       let operationScroll = this.$refs.operationScroll,
         touchstart = (e) => {
-          console.log("点击", e);
+          if (e.touches[0]) {
+            position.X = e.touches[0].clientX;
+            position.Y = e.touches[0].clientY;
+          }
         },
         touchend = (e) => {
-          console.log("松开", e);
+          this.$refs.img.style.top = this.$refs.img.offsetTop + 'px';
+          this.$refs.img.style.left= this.$refs.img.offsetLeft + 'px';
+          this.$refs.img.style.marginTop= '0px';
+          this.$refs.img.style.marginLeft= '0px';
+        },
+        touchmove = (e) => {
+          if (e.touches[0]) {
+            this.$refs.img.style.marginLeft = e.touches[0].clientX - position.X + 'px';
+            this.$refs.img.style.marginTop = e.touches[0].clientY - position.Y + 'px';
+          }
         },
         // 屏蔽父级的滚动功能
         scrollEventTarget = getScrollEventTarget(this.$el),
@@ -74,14 +90,14 @@ export default {
       scrollEventTarget.style.overflowY = "hidden";
       scrollEventTarget.style.overflowX = "hidden";
 
-      operationScroll.removeEventListener("touchstart", touchstart);
-      operationScroll.removeEventListener("touchend", touchend);
-      operationScroll.addEventListener("touchmove", touchstart, false);
-      operationScroll.addEventListener("touchend", touchend,  false);
+      operationScroll.addEventListener("touchstart", touchstart);
+      operationScroll.addEventListener("touchend", touchend);
+      operationScroll.addEventListener("touchmove", touchmove);
       this.$once("hook:beforeDestroy", () => {
         // 销毁滚动
         operationScroll.removeEventListener("touchstart", touchstart);
         operationScroll.removeEventListener("touchend", touchend);
+        operationScroll.removeEventListener("touchmove", touchmove);
         scrollEventTarget.style.overflowY = scrollEventTargetData.overflowY;
         scrollEventTarget.style.overflowX = scrollEventTargetData.overflowX;
       });
@@ -107,6 +123,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   .image-crop_img {
     position: absolute;
     top: 0;
@@ -118,6 +135,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    // pointer-events: none;
     background: rgba($color: #000000, $alpha: 0.5);
   }
 }
